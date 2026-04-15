@@ -1,0 +1,1217 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cookie World</title>
+  <style>
+    :root {
+      --ink: #4d2e1e;
+      --paper: #fff7ec;
+      --notebook: #fffdf6;
+      --pencil: #7f604c;
+      --cream: #fff0cb;
+      --peach: #ffcc9d;
+      --apricot: #f39b63;
+      --berry: #d95e72;
+      --jam: #b64859;
+      --mint: #c7e6bb;
+      --sky: #9ed6eb;
+      --butter: #f3dc7b;
+      --crust: #8b522d;
+      --shadow: 0 16px 35px rgba(106, 62, 31, 0.14);
+      --ring: 0 0 0 3px rgba(255, 247, 236, 0.95);
+      --sketch-border: 3px solid rgba(127, 96, 76, 0.24);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Comic Sans MS", "Trebuchet MS", "Segoe Print", cursive, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 18%, rgba(255, 255, 255, 0.72), transparent 14%),
+        radial-gradient(circle at 88% 10%, rgba(255, 241, 205, 0.88), transparent 16%),
+        radial-gradient(circle at 18% 78%, rgba(199, 230, 187, 0.52), transparent 18%),
+        linear-gradient(180deg, #fff4de 0%, #ffe6bf 30%, #ffd4c7 62%, #fff0eb 100%);
+      line-height: 1.6;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        linear-gradient(rgba(132, 187, 232, 0.16) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 143, 143, 0.14) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.38) 0 2px, transparent 2px);
+      background-position: 0 0, 38px 0, 22px 30px;
+      background-size: 100% 32px, 100% 100%, 68px 68px;
+      opacity: 0.55;
+      z-index: -1;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 14px;
+      border: 3px dashed rgba(217, 94, 114, 0.18);
+      border-radius: 28px;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .site-shell {
+      width: min(1180px, calc(100% - 28px));
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+
+    header {
+      position: relative;
+      overflow: hidden;
+      margin: 18px auto 0;
+      padding: 26px 20px 34px;
+      border: var(--sketch-border);
+      border-radius: 36px 28px 34px 30px;
+      background:
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.7), transparent 22%),
+        linear-gradient(135deg, #f8b06d 0%, #f08d69 45%, #df7aa1 100%);
+      box-shadow: var(--shadow), var(--ring);
+      text-align: center;
+      color: #fffaf4;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      inset: 14px;
+      border: 2px dashed rgba(255, 250, 244, 0.42);
+      border-radius: 28px 22px 30px 24px;
+      pointer-events: none;
+    }
+
+    .header-badge {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 8px 18px;
+      border: 2px dashed rgba(255, 250, 244, 0.7);
+      border-radius: 999px 999px 999px 18px;
+      background: rgba(255, 250, 244, 0.16);
+      font-family: "Segoe Print", "Comic Sans MS", cursive;
+      font-size: 0.85rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    header h1 {
+      font-family: "Marker Felt", "Comic Sans MS", "Segoe Print", cursive;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      text-shadow: 0 3px 0 rgba(117, 46, 46, 0.18);
+      transform: rotate(-1deg);
+    }
+
+    header p {
+      max-width: 640px;
+      margin: 12px auto 0;
+      font-size: 1.1rem;
+    }
+
+    .header-stars,
+    .header-stars::before,
+    .header-stars::after {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: rgba(255, 250, 244, 0.75);
+      clip-path: polygon(50% 0%, 61% 36%, 100% 50%, 61% 64%, 50% 100%, 39% 64%, 0% 50%, 39% 36%);
+      content: "";
+    }
+
+    .header-stars {
+      top: 26px;
+      left: 54px;
+      transform: rotate(18deg);
+    }
+
+    .header-stars::before {
+      top: 42px;
+      left: 48px;
+      width: 12px;
+      height: 12px;
+    }
+
+    .header-stars::after {
+      top: -6px;
+      left: calc(100vw - 220px);
+      width: 14px;
+      height: 14px;
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 20px auto 28px;
+      padding: 16px;
+      border: var(--sketch-border);
+      border-radius: 24px 30px 20px 26px;
+      background: rgba(255, 248, 239, 0.88);
+      box-shadow: var(--ring);
+      backdrop-filter: blur(4px);
+    }
+
+    nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 16px;
+      border: 2px dashed rgba(139, 82, 45, 0.2);
+      border-radius: 999px 999px 999px 20px;
+      background: linear-gradient(180deg, #fffaf2 0%, #ffe2ba 100%);
+      box-shadow: 0 6px 0 rgba(139, 82, 45, 0.08);
+      font-family: "Segoe Print", "Comic Sans MS", cursive;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    nav a:hover,
+    nav a:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 18px rgba(139, 82, 45, 0.14);
+      background: linear-gradient(180deg, #fff3df 0%, #ffd39a 100%);
+    }
+
+    section {
+      position: relative;
+      margin-bottom: 28px;
+      padding: 36px 24px 40px;
+      border: var(--sketch-border);
+      border-radius: 32px 26px 30px 34px;
+      box-shadow: var(--shadow), var(--ring);
+    }
+
+    section::before {
+      content: "";
+      position: absolute;
+      inset: 12px;
+      border: 2px dashed rgba(127, 96, 76, 0.16);
+      border-radius: 24px 18px 22px 28px;
+      pointer-events: none;
+    }
+
+    section h2 {
+      font-family: "Marker Felt", "Comic Sans MS", "Segoe Print", cursive;
+      font-size: clamp(2rem, 4vw, 3rem);
+      letter-spacing: 0.02em;
+      text-align: center;
+    }
+
+    .section-tag {
+      display: inline-block;
+      margin: 0 auto 12px;
+      padding: 6px 14px;
+      border-radius: 999px 999px 999px 14px;
+      background: rgba(255, 250, 244, 0.86);
+      border: 2px dashed rgba(139, 82, 45, 0.25);
+      font-family: "Segoe Print", "Comic Sans MS", cursive;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transform: rotate(-2deg);
+    }
+
+    .section-head {
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      text-align: center;
+    }
+
+    .subtitle {
+      max-width: 720px;
+      color: rgba(77, 46, 30, 0.84);
+      font-size: 1rem;
+    }
+
+    .hero {
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 14% 18%, rgba(255, 255, 255, 0.78), transparent 18%),
+        radial-gradient(circle at 84% 20%, rgba(199, 230, 187, 0.72), transparent 16%),
+        linear-gradient(135deg, #fff7d8 0%, #ffd7a8 52%, #ffbca5 100%);
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 26px;
+      align-items: center;
+    }
+
+    .hero-copy {
+      position: relative;
+      padding: 30px;
+      border: 3px solid rgba(139, 82, 45, 0.18);
+      border-radius: 20px 28px 22px 30px;
+      background:
+        linear-gradient(rgba(132, 187, 232, 0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 160, 160, 0.16) 1px, transparent 1px),
+        rgba(255, 251, 242, 0.9);
+      background-size: 100% 30px, 100% 100%, auto;
+      background-position: 0 12px, 18px 0, 0 0;
+      box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.7);
+    }
+
+    .hero-copy::after {
+      content: "";
+      position: absolute;
+      right: 22px;
+      bottom: 18px;
+      width: 88px;
+      height: 28px;
+      border-bottom: 3px solid rgba(182, 72, 89, 0.26);
+      border-radius: 50%;
+      transform: rotate(-7deg);
+      opacity: 0.9;
+    }
+
+    .hero-copy h2 {
+      text-align: left;
+      line-height: 1.05;
+    }
+
+    .hero-copy p {
+      margin-top: 16px;
+      font-size: 1.08rem;
+      max-width: 58ch;
+    }
+
+    .hero-ribbon {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 8px 14px;
+      border-radius: 999px 999px 999px 18px;
+      background: linear-gradient(180deg, #e15f73 0%, #c54f63 100%);
+      color: #fffaf2;
+      font-family: "Segoe Print", "Comic Sans MS", cursive;
+      font-size: 0.84rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transform: rotate(-2deg);
+    }
+
+    .hero-aside {
+      display: grid;
+      gap: 16px;
+    }
+
+    .home-card,
+    .mini-note {
+      border-radius: 22px 28px 20px 26px;
+      border: var(--sketch-border);
+      background: rgba(255, 251, 243, 0.92);
+      box-shadow: var(--ring);
+    }
+
+    .home-card {
+      padding: 24px;
+      transform: rotate(1.5deg);
+    }
+
+    .home-card h3,
+    .mini-note h3 {
+      margin-bottom: 10px;
+      font-family: "Marker Felt", "Comic Sans MS", cursive;
+      color: var(--jam);
+    }
+
+    .mini-note {
+      padding: 18px 20px;
+      transform: rotate(-1.5deg);
+    }
+
+    .cards,
+    .recipe-grid,
+    .bread-grid,
+    .board-grid {
+      display: grid;
+      gap: 22px;
+    }
+
+    .cards {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .cookies-section {
+      background:
+        radial-gradient(circle at 10% 16%, rgba(199, 230, 187, 0.46), transparent 15%),
+        linear-gradient(180deg, #fff8ec 0%, #ffeecf 100%);
+    }
+
+    .card,
+    .recipe-card,
+    .bread-card,
+    .board-note {
+      position: relative;
+      padding: 22px 20px;
+      border: var(--sketch-border);
+      border-radius: 20px 26px 18px 24px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 12px 22px rgba(112, 70, 41, 0.12);
+      transition: transform 0.2s ease;
+    }
+
+    .card::before,
+    .recipe-card::after,
+    .bread-card::after,
+    .board-note::after {
+      content: "";
+      position: absolute;
+      left: 14px;
+      right: 14px;
+      bottom: 12px;
+      border-bottom: 2px dashed rgba(127, 96, 76, 0.14);
+      pointer-events: none;
+    }
+
+    .card:nth-child(odd) {
+      transform: rotate(-1.2deg);
+    }
+
+    .card:nth-child(even) {
+      transform: rotate(1.2deg);
+    }
+
+    .card:hover,
+    .recipe-card:hover,
+    .bread-card:hover,
+    .board-note:hover {
+      transform: translateY(-4px) rotate(0deg);
+    }
+
+    .emoji {
+      display: inline-grid;
+      place-items: center;
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 12px;
+      border-radius: 20px 18px 22px 16px;
+      background: linear-gradient(180deg, #fff4da 0%, #ffd59f 100%);
+      border: 2px dashed rgba(139, 82, 45, 0.2);
+      font-family: "Marker Felt", "Comic Sans MS", cursive;
+      font-size: 1.15rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      box-shadow: inset 0 -4px 0 rgba(139, 82, 45, 0.08);
+      transform: rotate(-4deg);
+    }
+
+    .card h3,
+    .recipe-card h3,
+    .bread-card h3 {
+      margin-bottom: 10px;
+      font-family: "Marker Felt", "Comic Sans MS", cursive;
+      font-size: 1.24rem;
+      color: var(--jam);
+      text-align: center;
+    }
+
+    .card p {
+      text-align: center;
+      color: rgba(77, 46, 30, 0.82);
+    }
+
+    .recipe {
+      background:
+        radial-gradient(circle at 88% 12%, rgba(158, 214, 235, 0.5), transparent 16%),
+        linear-gradient(180deg, #fff3dd 0%, #ffdcb7 100%);
+    }
+
+    .recipe-grid,
+    .bread-grid {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .recipe-card::before,
+    .bread-card::before {
+      content: "";
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 52px;
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(217, 94, 114, 0.18);
+      border: 1px dashed rgba(182, 72, 89, 0.16);
+      transform: rotate(10deg);
+    }
+
+    .recipe-card ul,
+    .bread-card ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      font-size: 0.94rem;
+    }
+
+    .recipe-card li,
+    .bread-card li {
+      position: relative;
+      padding-left: 22px;
+    }
+
+    .recipe-card li::before,
+    .bread-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0.55em;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(180deg, var(--berry) 0%, var(--apricot) 100%);
+    }
+
+    .bake-note {
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 2px dashed rgba(139, 82, 45, 0.16);
+      color: rgba(77, 46, 30, 0.8);
+      font-style: italic;
+    }
+
+    .bread-section {
+      background:
+        radial-gradient(circle at 16% 18%, rgba(243, 220, 123, 0.5), transparent 16%),
+        linear-gradient(180deg, #fff8ef 0%, #ffe7c5 100%);
+    }
+
+    .bread-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .bread-tabs button {
+      min-width: 140px;
+      padding: 12px 20px;
+      border: 3px dashed rgba(139, 82, 45, 0.18);
+      border-radius: 999px 999px 999px 18px;
+      background: linear-gradient(180deg, #fffaf3 0%, #ffe2bd 100%);
+      box-shadow: 0 8px 0 rgba(139, 82, 45, 0.08);
+      color: var(--crust);
+      font-family: "Segoe Print", "Comic Sans MS", cursive;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    .bread-tabs button.active,
+    .bread-tabs button:hover,
+    .bread-tabs button:focus-visible {
+      background: linear-gradient(180deg, #e15f73 0%, #c44d61 100%);
+      color: #fffaf2;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 18px rgba(143, 58, 75, 0.2);
+    }
+
+    .bread-grid {
+      display: none;
+    }
+
+    .bread-grid.visible {
+      display: grid;
+    }
+
+    .message-board {
+      overflow: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(255, 229, 158, 0.65), transparent 22%),
+        radial-gradient(circle at bottom right, rgba(217, 94, 114, 0.18), transparent 24%),
+        linear-gradient(180deg, #fff7ef 0%, #ffe3d1 100%);
+    }
+
+    .message-board::before,
+    .message-board::after {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 14px solid rgba(255, 255, 255, 0.28);
+      pointer-events: none;
+    }
+
+    .message-board::before {
+      top: -34px;
+      left: -20px;
+    }
+
+    .message-board::after {
+      right: -26px;
+      bottom: -36px;
+    }
+
+    .board-layout {
+      display: grid;
+      grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .board-composer {
+      position: sticky;
+      top: 18px;
+      padding: 22px 20px;
+      border: var(--sketch-border);
+      border-radius: 24px 28px 22px 26px;
+      background:
+        linear-gradient(rgba(132, 187, 232, 0.16) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 160, 160, 0.12) 1px, transparent 1px),
+        rgba(255, 252, 244, 0.95);
+      background-size: 100% 28px, 100% 100%, auto;
+      background-position: 0 10px, 18px 0, 0 0;
+      box-shadow: var(--ring);
+    }
+
+    .board-composer h3 {
+      margin-bottom: 8px;
+      font-family: "Marker Felt", "Comic Sans MS", cursive;
+      font-size: 1.45rem;
+      color: var(--jam);
+    }
+
+    .board-composer p {
+      margin-bottom: 16px;
+      color: rgba(77, 46, 30, 0.82);
+    }
+
+    .board-form {
+      display: grid;
+      gap: 12px;
+    }
+
+    .board-form label {
+      display: grid;
+      gap: 6px;
+      font-weight: 700;
+    }
+
+    .board-form input,
+    .board-form textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px dashed rgba(139, 82, 45, 0.22);
+      border-radius: 16px 18px 14px 18px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--ink);
+      font: inherit;
+      resize: vertical;
+    }
+
+    .board-form input:focus,
+    .board-form textarea:focus {
+      outline: none;
+      border-color: rgba(182, 72, 89, 0.48);
+      box-shadow: 0 0 0 4px rgba(217, 94, 114, 0.12);
+    }
+
+    .board-form textarea {
+      min-height: 140px;
+    }
+
+    .board-form button {
+      justify-self: start;
+      min-height: 46px;
+      padding: 12px 18px;
+      border: 0;
+      border-radius: 999px 999px 999px 18px;
+      background: linear-gradient(180deg, #e15f73 0%, #c44d61 100%);
+      box-shadow: 0 8px 0 rgba(143, 58, 75, 0.16);
+      color: #fffaf2;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .board-form button:hover,
+    .board-form button:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 16px rgba(143, 58, 75, 0.22);
+    }
+
+    .board-helper {
+      font-size: 0.92rem;
+      color: rgba(77, 46, 30, 0.72);
+    }
+
+    .board-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .board-note {
+      min-height: 170px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.97) 0%, rgba(255, 247, 236, 0.94) 100%);
+    }
+
+    .board-note::before {
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      width: 52px;
+      height: 14px;
+      border-radius: 999px;
+      background: rgba(243, 220, 123, 0.55);
+      transform: translateX(-50%) rotate(-3deg);
+    }
+
+    .board-note h3 {
+      margin: 18px 0 12px;
+      font-family: "Marker Felt", "Comic Sans MS", cursive;
+      font-size: 1.3rem;
+      color: var(--jam);
+    }
+
+    .board-note.highlight {
+      background:
+        linear-gradient(180deg, rgba(255, 243, 191, 0.98) 0%, rgba(255, 233, 203, 0.96) 100%);
+    }
+
+    footer {
+      margin: 0 auto 20px;
+      padding: 18px 20px 28px;
+      text-align: center;
+      color: rgba(77, 46, 30, 0.86);
+      font-size: 0.95rem;
+      font-family: "Segoe Print", "Comic Sans MS", cursive;
+    }
+
+    @media (max-width: 860px) {
+      .hero-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .board-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .board-composer {
+        position: static;
+      }
+
+      .hero-copy h2 {
+        text-align: center;
+      }
+
+      .hero-copy p {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .site-shell {
+        width: min(100% - 16px, 1180px);
+      }
+
+      header {
+        padding-top: 22px;
+      }
+
+      section {
+        padding: 28px 16px 32px;
+        border-radius: 24px;
+      }
+
+      nav {
+        gap: 10px;
+        padding: 12px;
+      }
+
+      nav a,
+      .bread-tabs button {
+        width: 100%;
+      }
+
+      .card,
+      .recipe-card,
+      .bread-card,
+      .board-note,
+      .home-card,
+      .mini-note {
+        transform: none;
+      }
+
+      .header-stars,
+      .header-stars::before,
+      .header-stars::after {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <header>
+      <div class="header-stars" aria-hidden="true"></div>
+      <div class="header-badge">A Sweet Little Neighborhood</div>
+      <h1>Cookie World</h1>
+      <p>Step inside for warm recipes, soft colors, and the kind of treat-filled welcome that feels like coming home.</p>
+    </header>
+
+    <nav aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#types">Cookie Types</a>
+      <a href="#recipe">Cookie Recipes</a>
+      <a href="#bread">Bread Recipes</a>
+      <a href="#board">Message Board</a>
+    </nav>
+
+    <section class="hero" id="about">
+      <div class="hero-layout">
+        <div class="hero-copy">
+          <div class="hero-ribbon">Welcome Home</div>
+          <h2>Welcome to Cookie World!</h2>
+          <p>
+            Cookies are one of the greatest treats known to humanity. Whether you like them soft and chewy,
+            crispy and thin, loaded with chocolate chips, or packed with oats, there is a cookie out there for everyone.
+            Come explore the delicious world of cookies with us.
+          </p>
+        </div>
+
+        <div class="hero-aside">
+          <article class="home-card">
+            <h3>House Special</h3>
+            <p>Soft bakery colors, comforting recipes, and a page full of little details that make the whole place feel lived in.</p>
+          </article>
+
+          <article class="mini-note">
+            <h3>Today on the Table</h3>
+            <p>Chocolate chip favorites, low-carb bakes, fresh bread ideas, and notes from visitors passing through.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="cookies-section" id="types">
+      <div class="section-head">
+        <div class="section-tag">Cookie Parade</div>
+        <h2>Popular Cookie Types</h2>
+        <p class="subtitle">A cheerful shelf of classics, citrusy favorites, and rich chocolate bakes for every kind of sweet tooth.</p>
+      </div>
+
+      <div class="cards">
+        <article class="card">
+          <div class="emoji" aria-hidden="true">CC</div>
+          <h3>Chocolate Chip</h3>
+          <p>The classic. Gooey chocolate chips in a buttery dough. A timeless favorite.</p>
+        </article>
+        <article class="card">
+          <div class="emoji" aria-hidden="true">OR</div>
+          <h3>Oatmeal Raisin</h3>
+          <p>Chewy, hearty, and full of flavor. A wholesome treat with a hint of cinnamon.</p>
+        </article>
+        <article class="card">
+          <div class="emoji" aria-hidden="true">SC</div>
+          <h3>Sugar Cookie</h3>
+          <p>Soft, sweet, and perfectly simple. Great for decorating with icing.</p>
+        </article>
+        <article class="card">
+          <div class="emoji" aria-hidden="true">PB</div>
+          <h3>Peanut Butter</h3>
+          <p>Rich, nutty, and satisfying. Perfect for peanut butter lovers everywhere.</p>
+        </article>
+        <article class="card">
+          <div class="emoji" aria-hidden="true">LD</div>
+          <h3>Lemon Drop</h3>
+          <p>Bright, zesty, and refreshing. A citrusy twist on a sweet classic.</p>
+        </article>
+        <article class="card">
+          <div class="emoji" aria-hidden="true">DC</div>
+          <h3>Double Chocolate</h3>
+          <p>For serious chocolate lovers. Rich cocoa dough loaded with chocolate chips.</p>
+        </article>
+        <article class="card">
+          <div class="emoji" aria-hidden="true">RV</div>
+          <h3>Red Velvet</h3>
+          <p>Velvety, vibrant, and indulgent. A rich cocoa cookie with a stunning red hue, finished with creamy cream cheese frosting.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="recipe" id="recipe">
+      <div class="section-head">
+        <div class="section-tag">Pantry Notes</div>
+        <h2>Low-Carb Cookie Recipes</h2>
+        <p class="subtitle">All recipes use almond flour and sugar-free sweeteners for big flavor with fewer carbs.</p>
+      </div>
+
+      <div class="recipe-grid">
+        <article class="recipe-card">
+          <h3>Chocolate Chip</h3>
+          <ul>
+            <li>2 cups almond flour</li>
+            <li>1/3 cup erythritol</li>
+            <li>1/4 cup butter, melted</li>
+            <li>1 egg</li>
+            <li>1 tsp vanilla extract</li>
+            <li>1/2 tsp baking soda</li>
+            <li>1/2 cup sugar-free chocolate chips</li>
+          </ul>
+          <p class="bake-note">Bake at 350°F for 10 to 12 minutes.</p>
+        </article>
+
+        <article class="recipe-card">
+          <h3>Oatmeal Raisin</h3>
+          <ul>
+            <li>1 1/2 cups almond flour</li>
+            <li>1/2 cup rolled oats (gluten-free)</li>
+            <li>1/4 cup erythritol</li>
+            <li>1/4 cup butter, softened</li>
+            <li>1 egg</li>
+            <li>1 tsp cinnamon</li>
+            <li>1/3 cup raisins (reduced)</li>
+          </ul>
+          <p class="bake-note">Bake at 350°F for 11 to 13 minutes.</p>
+        </article>
+
+        <article class="recipe-card">
+          <h3>Sugar Cookie</h3>
+          <ul>
+            <li>2 cups almond flour</li>
+            <li>1/3 cup powdered erythritol</li>
+            <li>1/4 cup butter, softened</li>
+            <li>1 egg</li>
+            <li>1 tsp vanilla extract</li>
+            <li>1/4 tsp almond extract</li>
+            <li>1/2 tsp baking powder</li>
+          </ul>
+          <p class="bake-note">Bake at 325°F for 10 to 12 minutes.</p>
+        </article>
+
+        <article class="recipe-card">
+          <h3>Peanut Butter</h3>
+          <ul>
+            <li>1 cup natural peanut butter</li>
+            <li>1/3 cup erythritol</li>
+            <li>1 egg</li>
+            <li>1 tsp vanilla extract</li>
+            <li>1/2 tsp baking soda</li>
+            <li>Pinch of salt</li>
+          </ul>
+          <p class="bake-note">Bake at 350°F for 10 to 11 minutes. No flour needed.</p>
+        </article>
+
+        <article class="recipe-card">
+          <h3>Lemon Drop</h3>
+          <ul>
+            <li>2 cups almond flour</li>
+            <li>1/3 cup erythritol</li>
+            <li>1/4 cup butter, melted</li>
+            <li>1 egg</li>
+            <li>2 tbsp fresh lemon juice</li>
+            <li>1 tbsp lemon zest</li>
+            <li>1/2 tsp baking powder</li>
+          </ul>
+          <p class="bake-note">Bake at 350°F for 10 to 12 minutes.</p>
+        </article>
+
+        <article class="recipe-card">
+          <h3>Double Chocolate</h3>
+          <ul>
+            <li>1 1/2 cups almond flour</li>
+            <li>1/3 cup cocoa powder</li>
+            <li>1/3 cup erythritol</li>
+            <li>1/4 cup butter, melted</li>
+            <li>1 egg</li>
+            <li>1 tsp vanilla extract</li>
+            <li>1/2 cup sugar-free chocolate chips</li>
+          </ul>
+          <p class="bake-note">Bake at 350°F for 11 to 13 minutes.</p>
+        </article>
+
+        <article class="recipe-card">
+          <h3>Red Velvet</h3>
+          <ul>
+            <li>2 cups almond flour</li>
+            <li>2 tbsp cocoa powder</li>
+            <li>1/3 cup erythritol</li>
+            <li>1/4 cup butter, melted</li>
+            <li>1 egg</li>
+            <li>1 tsp vanilla extract</li>
+            <li>1 tsp red food coloring</li>
+            <li>Cream cheese frosting (sugar-free)</li>
+          </ul>
+          <p class="bake-note">Bake at 350°F for 10 to 12 minutes. Top with frosting after cooling.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="bread-section" id="bread">
+      <div class="section-head">
+        <div class="section-tag">Fresh From The Oven</div>
+        <h2>Bread Recipes</h2>
+        <p class="subtitle">Classic and low-carb loaves with a playful tab switch so the page still feels light and easy to browse.</p>
+      </div>
+
+      <div class="bread-tabs" role="tablist" aria-label="Bread recipe categories">
+        <button class="active" type="button" onclick="showBreads('regular', this)">Regular</button>
+        <button type="button" onclick="showBreads('lowcarb', this)">Low-Carb</button>
+      </div>
+
+      <div class="bread-grid visible" id="regular-breads">
+        <article class="bread-card">
+          <h3>Classic White Bread</h3>
+          <ul>
+            <li>3 cups all-purpose flour</li>
+            <li>2 1/4 tsp active dry yeast</li>
+            <li>1 cup warm water</li>
+            <li>2 tbsp sugar</li>
+            <li>2 tbsp butter</li>
+            <li>1 tsp salt</li>
+          </ul>
+          <p class="bake-note">Rise 1 hour, then bake at 375°F for 25 to 30 minutes.</p>
+        </article>
+        <article class="bread-card">
+          <h3>Whole Wheat Bread</h3>
+          <ul>
+            <li>2 cups whole wheat flour</li>
+            <li>1 cup all-purpose flour</li>
+            <li>2 1/4 tsp active dry yeast</li>
+            <li>1 cup warm water</li>
+            <li>2 tbsp honey</li>
+            <li>2 tbsp olive oil</li>
+            <li>1 tsp salt</li>
+          </ul>
+          <p class="bake-note">Rise 1 hour, then bake at 375°F for 30 to 35 minutes.</p>
+        </article>
+        <article class="bread-card">
+          <h3>Garlic Bread</h3>
+          <ul>
+            <li>1 baguette or Italian loaf</li>
+            <li>1/2 cup butter, softened</li>
+            <li>4 garlic cloves, minced</li>
+            <li>2 tbsp fresh parsley</li>
+            <li>Pinch of salt</li>
+            <li>Optional: shredded mozzarella</li>
+          </ul>
+          <p class="bake-note">Bake at 375°F for 10 to 15 minutes until golden.</p>
+        </article>
+        <article class="bread-card">
+          <h3>Banana Bread</h3>
+          <ul>
+            <li>3 ripe bananas, mashed</li>
+            <li>1 1/2 cups all-purpose flour</li>
+            <li>3/4 cup sugar</li>
+            <li>1/3 cup butter, melted</li>
+            <li>1 egg</li>
+            <li>1 tsp baking soda</li>
+            <li>1 tsp vanilla extract</li>
+          </ul>
+          <p class="bake-note">Bake at 350°F for 55 to 65 minutes.</p>
+        </article>
+      </div>
+
+      <div class="bread-grid" id="lowcarb-breads">
+        <article class="bread-card">
+          <h3>Almond Flour Bread</h3>
+          <ul>
+            <li>2 cups almond flour</li>
+            <li>4 eggs</li>
+            <li>1/4 cup butter, melted</li>
+            <li>1 tsp baking powder</li>
+            <li>1/2 tsp salt</li>
+            <li>1 tbsp apple cider vinegar</li>
+          </ul>
+          <p class="bake-note">Bake at 350°F for 30 to 35 minutes.</p>
+        </article>
+        <article class="bread-card">
+          <h3>Cloud Bread</h3>
+          <ul>
+            <li>3 eggs, separated</li>
+            <li>3 tbsp cream cheese, softened</li>
+            <li>1/4 tsp cream of tartar</li>
+            <li>Pinch of salt</li>
+            <li>Optional: garlic powder, herbs</li>
+          </ul>
+          <p class="bake-note">Bake at 300°F for 25 to 30 minutes. Light and airy.</p>
+        </article>
+        <article class="bread-card">
+          <h3>Psyllium Husk Bread</h3>
+          <ul>
+            <li>1 cup almond flour</li>
+            <li>1/4 cup psyllium husk powder</li>
+            <li>3 eggs</li>
+            <li>1/4 cup olive oil</li>
+            <li>1 tsp baking powder</li>
+            <li>1/2 cup warm water</li>
+            <li>1/2 tsp salt</li>
+          </ul>
+          <p class="bake-note">Bake at 350°F for 45 to 50 minutes. Great texture.</p>
+        </article>
+        <article class="bread-card">
+          <h3>Low-Carb Banana Bread</h3>
+          <ul>
+            <li>2 cups almond flour</li>
+            <li>1 ripe banana, mashed</li>
+            <li>3 eggs</li>
+            <li>1/4 cup erythritol</li>
+            <li>1/4 cup butter, melted</li>
+            <li>1 tsp baking soda</li>
+            <li>1 tsp vanilla extract</li>
+          </ul>
+          <p class="bake-note">Bake at 350°F for 45 to 55 minutes.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="message-board" id="board">
+      <div class="section-head">
+        <div class="section-tag">Neighbor Notes</div>
+        <h2>Cookie Message Board</h2>
+        <p class="subtitle">
+          A cozy wall of notes from visitors who stopped by for crumbs, comfort, and something sweet.
+          The goal is less "template" and more "handmade bulletin board by the kitchen."
+        </p>
+      </div>
+
+      <div class="board-layout">
+        <aside class="board-composer" aria-label="Add a note">
+          <h3>Add your own note</h3>
+          <p>Write directly on the board here. No copy-and-paste step.</p>
+
+          <form class="board-form" id="board-form">
+            <label>
+              Name
+              <input id="note-name" name="name" type="text" maxlength="24" placeholder="Your name" required />
+            </label>
+
+            <label>
+              Message
+              <textarea id="note-message" name="message" maxlength="220" placeholder="Share your favorite cookie, recipe idea, or bakery opinion." required></textarea>
+            </label>
+
+            <button type="submit">Pin My Note</button>
+            <p class="board-helper" id="board-status" aria-live="polite">New notes appear on the board right away.</p>
+          </form>
+        </aside>
+
+        <div class="board-grid" id="board-grid">
+          <article class="board-note">
+            <h3>Maya</h3>
+            <p>The chocolate chip section made me want to preheat the oven immediately.</p>
+          </article>
+
+          <article class="board-note">
+            <h3>Eli</h3>
+            <p>I came for cookie ideas and stayed for the low-carb recipes. The lemon one looks first in line.</p>
+          </article>
+
+          <article class="board-note">
+            <h3>Jordan</h3>
+            <p>The page feels warm and homemade. The bread tabs are a nice touch instead of one long list.</p>
+          </article>
+
+          <article class="board-note highlight">
+            <h3>Rina</h3>
+            <p>Red velvet cookies and banana bread on one page is exactly the kind of sweet decision-making I respect.</p>
+          </article>
+
+          <article class="board-note">
+            <h3>Noah</h3>
+            <p>The recipe cards are easy to scan. This message wall makes the site feel lived in.</p>
+          </article>
+
+          <article class="board-note">
+            <h3>Skye</h3>
+            <p>This board looks pinned together by hand instead of dropped in from a template.</p>
+          </article>
+
+          <article class="board-note">
+            <h3>Avery</h3>
+            <p>No-flour peanut butter cookies and soft bakery colors. Strong choices all around.</p>
+          </article>
+
+          <article class="board-note highlight">
+            <h3>Luca</h3>
+            <p>The decorative touches give this section personality without fighting the rest of the page.</p>
+          </article>
+
+          <article class="board-note">
+            <h3>Sage</h3>
+            <p>Please keep adding recipes. Any site that prioritizes double chocolate deserves regular visits.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>&copy; 2026 Cookie World. Made with love, butter, and a warm welcome.</p>
+    </footer>
+  </div>
+
+  <script>
+    function showBreads(type, btn) {
+      document.querySelectorAll(".bread-grid").forEach((grid) => grid.classList.remove("visible"));
+      document.querySelectorAll(".bread-tabs button").forEach((button) => button.classList.remove("active"));
+      document.getElementById(type + "-breads").classList.add("visible");
+      btn.classList.add("active");
+    }
+
+    const boardForm = document.getElementById("board-form");
+    const boardGrid = document.getElementById("board-grid");
+    const boardStatus = document.getElementById("board-status");
+
+    boardForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(boardForm);
+      const name = formData.get("name").toString().trim();
+      const message = formData.get("message").toString().trim();
+
+      if (!name || !message) {
+        boardStatus.textContent = "Add both a name and a message before pinning the note.";
+        return;
+      }
+
+      const note = document.createElement("article");
+      note.className = "board-note highlight";
+      note.innerHTML = `<h3></h3><p></p>`;
+      note.querySelector("h3").textContent = name;
+      note.querySelector("p").textContent = message;
+
+      boardGrid.prepend(note);
+      boardForm.reset();
+      boardStatus.textContent = `Pinned ${name}'s note to the board.`;
+    });
+  </script>
+</body>
+</html>
+
